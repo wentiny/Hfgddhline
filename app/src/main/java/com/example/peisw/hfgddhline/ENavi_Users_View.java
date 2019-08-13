@@ -2,6 +2,7 @@ package com.example.peisw.hfgddhline;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,11 +30,12 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
-
+    public static ENavi_Users_View instance;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int i = ContextCompat.checkSelfPermission(this, permissions[0]);
@@ -50,24 +52,43 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
                         .setTitle("选择仪器型号")
                         .setCancelable(false)
                         .setCanceledOnTouchOutside(false)
-                        .addSheetItem("武汉攀达PD9", ActionSheetDialog.SheetItemColor.Blue,
-                                new ActionSheetDialog.OnSheetItemClickListener(){
+                        .addSheetItem("武汉攀达PD9(导入)", ActionSheetDialog.SheetItemColor.Blue,
+                                new ActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
-                                    public void onClick(int which)
-                                    {
+                                    public void onClick(int which) {
+                                        new ActionSheetDialog(ENavi_Users_View.this).builder()
+                                                .setTitle("操作")
+                                                .setCancelable(false)
+                                                .setCanceledOnTouchOutside(false)
+                                                .addSheetItem("导入", ActionSheetDialog.SheetItemColor.Blue,
+                                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                                            @Override
+                                                            public void onClick(int which) {
+                                                                Intent intent = new Intent(ENavi_Users_View.this,Import_Wuhan_Panda9.class);
+                                                                intent.putExtra("orgid",getIntent().getStringExtra("orgid"));
+                                                                intent.putExtra("empid",getIntent().getStringExtra("empid"));
+                                                                intent.putExtra("empname",getIntent().getStringExtra("empname"));
+                                                                startActivity(intent);
+                                                            }
+                                                        })
+                                                .addSheetItem("关联", ActionSheetDialog.SheetItemColor.Blue,
+                                                        new ActionSheetDialog.OnSheetItemClickListener() {
+                                                            @Override
+                                                            public void onClick(int which) {
 
+                                                            }
+                                                        }).show();
                                     }
                                 })
-                        .addSheetItem("中海达V30plus", ActionSheetDialog.SheetItemColor.Blue,
-                                new ActionSheetDialog.OnSheetItemClickListener(){
+                        .addSheetItem("中海达V30plus(采集)", ActionSheetDialog.SheetItemColor.Blue,
+                                new ActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
                                     public void onClick(int which) {
 
                                     }
                                 }).show();
-
             }
-        });
+            });
 
         tv1 = (TextView)findViewById(R.id.textView);
         tv2 = (TextView)findViewById(R.id.textView2);

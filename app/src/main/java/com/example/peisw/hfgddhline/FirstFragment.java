@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -56,6 +57,13 @@ public class FirstFragment extends Fragment {
                 });
             }
 
+            TextView tv5 = (TextView)view.findViewById(R.id.textView5);
+            tv5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
 
         }

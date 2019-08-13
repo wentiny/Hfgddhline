@@ -116,7 +116,7 @@ public class ActionSheetDialog {
             final OnSheetItemClickListener listener = (OnSheetItemClickListener) sheetItem.itemClickListener;
             TextView textView = new TextView(context);
             textView.setText(strItem);
-            textView.setTextSize(20);
+            textView.setTextSize(17);
             textView.setGravity(Gravity.CENTER);
             // 背景图片
             if (size == 1) {

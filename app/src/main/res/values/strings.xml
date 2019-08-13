@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hfgddhline</string>
+    <string name="lanya">打开蓝牙</string>
+    <string name="serchlanya">搜索蓝牙</string>
+    <string name="listlanya">蓝牙列表</string>
+    <string name="openlanya">打开蓝牙</string>
+    <string name="closelanya">关闭蓝牙</string>
+</resources>
