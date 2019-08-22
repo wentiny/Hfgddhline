@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.peisw.hfgddhline.myBlue.Demo_BlueTooth;
 import com.example.peisw.hfgddhline.utils.ActionSheetDialog;
 
 /**
@@ -32,10 +33,12 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
             Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
     public static ENavi_Users_View instance;
 
+    public static String orgid;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+        orgid = getIntent().getStringExtra("orgid");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int i = ContextCompat.checkSelfPermission(this, permissions[0]);
@@ -43,6 +46,8 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
                 showDialogRequestPermission();
             }
         }
+
+        method.url01 = getIntent().getStringExtra("urlpath")+"/newlxjiaserver1";
 
         Button btn1 = (Button)findViewById(R.id.button);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +80,11 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
                                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                                             @Override
                                                             public void onClick(int which) {
-
+                                                                Intent intent = new Intent(ENavi_Users_View.this,Connect_Wuhan_Panda9.class);
+                                                                intent.putExtra("orgid",getIntent().getStringExtra("orgid"));
+                                                                intent.putExtra("empid",getIntent().getStringExtra("empid"));
+                                                                intent.putExtra("empname",getIntent().getStringExtra("empname"));
+                                                                startActivity(intent);
                                                             }
                                                         }).show();
                                     }
@@ -84,7 +93,8 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
                                 new ActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
                                     public void onClick(int which) {
-
+                                        Intent intent = new Intent(ENavi_Users_View.this, Demo_BlueTooth.class);
+                                        startActivity(intent);
                                     }
                                 }).show();
             }

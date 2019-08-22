@@ -68,7 +68,23 @@
                 android:background="@drawable/shape_btn_blue"
                 android:textStyle="bold"
                 android:textColor="#fff"
-                android:text="提交路线" />
+                android:text="提交步行路线" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="4.选择路径点并提交电缆路径" />
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_btn_green"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:text="提交电缆路径" />
 
         </LinearLayout>
     </ScrollView>

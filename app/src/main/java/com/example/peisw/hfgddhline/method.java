@@ -27,8 +27,9 @@ import java.util.concurrent.FutureTask;
 
 public class method {
     //public static String url01 = "http://192.168.191.1:3011/newlxjiaserver1";
-    public static String url01 = "http://218.22.41.234:3011/newlxjiaserver1";
+    //public static String url01 = "http://218.22.41.234:3011/newlxjiaserver1";
     //public static String url01 = "http://192.168.56.1:3011/newlxjiaserver1";
+    public static String url01 = "";
     //post方式，优先使用此方式
     public static String doPost(final String url, final List<String> name, final List<String> value) {
         final StringBuilder sb = new StringBuilder();

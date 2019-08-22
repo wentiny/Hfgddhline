@@ -61,13 +61,14 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
         empname = getIntent().getStringExtra("empname");
     }
 
-    private Button btn5,btn7;
+    private Button btn5,btn7,btn11;
     private Spinner sp1;
     private TextView tv8;
     private ListView lv1;
     private void initView(){
         btn5 = (Button)findViewById(R.id.button5);
         btn7 = (Button)findViewById(R.id.button7);
+        btn11 = (Button)findViewById(R.id.button11);
         sp1 = (Spinner)findViewById(R.id.spinner);
         tv8 = (TextView)findViewById(R.id.textView8);
         lv1 = (ListView)findViewById(R.id.listview1);
@@ -91,8 +92,12 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
         tv8.setOnClickListener(this);
         btn5.setOnClickListener(this);
         btn7.setOnClickListener(this);
+        btn11.setOnClickListener(this);
     }
 
+    String temp="";
+    String tempLat="";
+    String tempLon="";
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -138,7 +143,70 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                 MyUtils.setListHeight(lv1);
                 break;
             case R.id.button7:
+                AlertDialog.Builder builder = new AlertDialog.Builder(Import_Wuhan_Panda9.this);
+                View cv = View.inflate(Import_Wuhan_Panda9.this,R.layout.dialog_show_text,null);
+                builder.setTitle("提交步行路线").setView(cv);
+                AlertDialog dialog = builder.create();
 
+                for(int i=0;i<list_walkpt_name.size();i++){
+                    temp = temp+"->("+list_walkpt_name.get(i)+")";
+                    tempLat = tempLat+list_walkpt_lat.get(i)+",";
+                    tempLon = tempLon+list_walkpt_lon.get(i)+",";
+                }
+
+                final EditText editText2 = (EditText)cv.findViewById(R.id.editText2);
+                TextView tv16 = (TextView)cv.findViewById(R.id.textView16);
+                tv16.setText("您选择的路径是:\n"+temp);
+                Button btn9 = (Button)cv.findViewById(R.id.button9);
+                btn9.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Map<String,String> map3 = new HashMap<String, String>();
+                        map3.put("orgid",orgid);
+                        map3.put("name",editText2.getText().toString());
+                        map3.put("listlat",tempLat);
+                        map3.put("listlon",tempLon);
+                        map3.put("empname",empname);
+                        try {
+                            JSONObject json9 = new JSONObject(method.doPostUseMap(method.url01+"/INavi/importWalkLine",map3));
+                            Toast.makeText(getApplicationContext(),json9.optString("msg"),Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {e.printStackTrace();}
+                    }
+                });
+                dialog.show();
+                break;
+            case R.id.button11:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Import_Wuhan_Panda9.this);
+                View cv1 = View.inflate(Import_Wuhan_Panda9.this,R.layout.dialog_show_text,null);
+                builder1.setTitle("提交电缆路径").setView(cv1);
+                AlertDialog dialog1 = builder1.create();
+
+                for(int i=0;i<list_walkpt_name.size();i++){
+                    temp = temp+"->("+list_walkpt_name.get(i)+")";
+                    tempLat = tempLat+list_walkpt_lat.get(i)+",";
+                    tempLon = tempLon+list_walkpt_lon.get(i)+",";
+                }
+
+                final EditText editText2_1 = (EditText)cv1.findViewById(R.id.editText2);
+                TextView tv16_1 = (TextView)cv1.findViewById(R.id.textView16);
+                tv16_1.setText("您选择的路径是:\n"+temp);
+                Button btn9_1 = (Button)cv1.findViewById(R.id.button9);
+                btn9_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Map<String,String> map3 = new HashMap<String, String>();
+                        map3.put("orgid",orgid);
+                        map3.put("name",editText2_1.getText().toString());
+                        map3.put("listlat",tempLat);
+                        map3.put("listlon",tempLon);
+                        map3.put("empname",empname);
+                        try {
+                            JSONObject json9 = new JSONObject(method.doPostUseMap(method.url01+"/INavi/importCableTrend",map3));
+                            Toast.makeText(getApplicationContext(),json9.optString("msg"),Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {e.printStackTrace();}
+                    }
+                });
+                dialog1.show();
                 break;
         }
     }

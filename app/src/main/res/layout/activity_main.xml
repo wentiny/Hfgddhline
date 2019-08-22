@@ -58,7 +58,7 @@
             android:textColor="@drawable/tab_menu_text"
             android:background="@drawable/tab_menu_background"
             android:gravity="center"
-            android:text="故标对照" />
+            android:text="电缆路径" />
     </LinearLayout>
 
 </LinearLayout>
