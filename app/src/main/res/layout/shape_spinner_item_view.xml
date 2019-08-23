@@ -11,6 +11,5 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:gravity="center"
-        android:background="@drawable/spinner_drop_down_shape"
         android:text="TextView" />
 </LinearLayout>

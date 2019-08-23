@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.08"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="34dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            app:srcCompat="@drawable/shouzhi" />
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/imageView"
-            android:gravity="center|left"
-            android:text="选择设备点"
-            android:textColor="#000" />
-        <Button
-            android:id="@+id/button13"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_btn_blue"
-            android:text="查询"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/button14" />
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_btn_gray"
-            android:textStyle="bold"
-            android:text="导航"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
     <com.amap.api.maps.MapView
         android:id="@+id/map1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.92"></com.amap.api.maps.MapView>
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_imgv3ed3btn15"
+            android:layout_width="327dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="27dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/toux" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:background="@drawable/bg_edittext_selector"
+                android:ems="10"
+                android:hint="查询关键处所、重点设备、电缆路径"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/button15"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:background="@color/green_3dbf53"
+                android:textColor="#fff"
+                android:text="查询"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.amap.api.maps.MapView>
+
+</FrameLayout>

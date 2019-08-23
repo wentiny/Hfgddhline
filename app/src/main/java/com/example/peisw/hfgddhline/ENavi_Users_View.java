@@ -2,7 +2,6 @@ package com.example.peisw.hfgddhline;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,12 +9,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import com.example.peisw.hfgddhline.myBlue.Demo_BlueTooth;
-import com.example.peisw.hfgddhline.utils.ActionSheetDialog;
 
 /**
  * Created by wentiny on 2019/8/5.
@@ -23,7 +18,7 @@ import com.example.peisw.hfgddhline.utils.ActionSheetDialog;
 
 public class ENavi_Users_View extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView tv1,tv2;
+    private TextView tv1,tv2,tv4;
     private FrameLayout fragment_container;
     private FirstFragment f1,f2;
     //权限数组
@@ -33,12 +28,14 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
             Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
     public static ENavi_Users_View instance;
 
-    public static String orgid;
+    public static String orgid,empid,empname;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
         orgid = getIntent().getStringExtra("orgid");
+        empid = getIntent().getStringExtra("empid");
+        empname = getIntent().getStringExtra("empname");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int i = ContextCompat.checkSelfPermission(this, permissions[0]);
@@ -49,59 +46,9 @@ public class ENavi_Users_View extends AppCompatActivity implements View.OnClickL
 
         method.url01 = getIntent().getStringExtra("urlpath")+"/newlxjiaserver1";
 
-        Button btn1 = (Button)findViewById(R.id.button);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new ActionSheetDialog(ENavi_Users_View.this).builder()
-                        .setTitle("选择仪器型号")
-                        .setCancelable(false)
-                        .setCanceledOnTouchOutside(false)
-                        .addSheetItem("武汉攀达PD9(导入)", ActionSheetDialog.SheetItemColor.Blue,
-                                new ActionSheetDialog.OnSheetItemClickListener() {
-                                    @Override
-                                    public void onClick(int which) {
-                                        new ActionSheetDialog(ENavi_Users_View.this).builder()
-                                                .setTitle("操作")
-                                                .setCancelable(false)
-                                                .setCanceledOnTouchOutside(false)
-                                                .addSheetItem("导入", ActionSheetDialog.SheetItemColor.Blue,
-                                                        new ActionSheetDialog.OnSheetItemClickListener() {
-                                                            @Override
-                                                            public void onClick(int which) {
-                                                                Intent intent = new Intent(ENavi_Users_View.this,Import_Wuhan_Panda9.class);
-                                                                intent.putExtra("orgid",getIntent().getStringExtra("orgid"));
-                                                                intent.putExtra("empid",getIntent().getStringExtra("empid"));
-                                                                intent.putExtra("empname",getIntent().getStringExtra("empname"));
-                                                                startActivity(intent);
-                                                            }
-                                                        })
-                                                .addSheetItem("关联", ActionSheetDialog.SheetItemColor.Blue,
-                                                        new ActionSheetDialog.OnSheetItemClickListener() {
-                                                            @Override
-                                                            public void onClick(int which) {
-                                                                Intent intent = new Intent(ENavi_Users_View.this,Connect_Wuhan_Panda9.class);
-                                                                intent.putExtra("orgid",getIntent().getStringExtra("orgid"));
-                                                                intent.putExtra("empid",getIntent().getStringExtra("empid"));
-                                                                intent.putExtra("empname",getIntent().getStringExtra("empname"));
-                                                                startActivity(intent);
-                                                            }
-                                                        }).show();
-                                    }
-                                })
-                        .addSheetItem("中海达V30plus(采集)", ActionSheetDialog.SheetItemColor.Blue,
-                                new ActionSheetDialog.OnSheetItemClickListener() {
-                                    @Override
-                                    public void onClick(int which) {
-                                        Intent intent = new Intent(ENavi_Users_View.this, Demo_BlueTooth.class);
-                                        startActivity(intent);
-                                    }
-                                }).show();
-            }
-            });
-
         tv1 = (TextView)findViewById(R.id.textView);
         tv2 = (TextView)findViewById(R.id.textView2);
+        //tv4 = (TextView)findViewById(R.id.textView4);tv4.setText(getIntent().getStringExtra("empname"));
         fragment_container = (FrameLayout)findViewById(R.id.frame_container);
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override

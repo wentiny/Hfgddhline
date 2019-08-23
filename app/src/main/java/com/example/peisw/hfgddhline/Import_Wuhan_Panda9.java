@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.peisw.hfgddhline.utils.ActionSheetDialog;
 import com.example.peisw.hfgddhline.utils.MyUtils;
+import com.example.peisw.hfgddhline.utils.PositionUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,6 +130,8 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
             //查询KML文件下的数据
             case R.id.button5:
                 listPointnm.clear();listLatlng.clear();
+                list_nvptLat.clear();list_nvptLon.clear();list_nvptName.clear();list_nvptRowid.clear();
+                list_walkpt_name.clear();list_walkpt_lat.clear();list_walkpt_lon.clear();
                 Map<String,String> map1 = new HashMap<String, String>();
                 map1.put("orgid",getIntent().getStringExtra("orgid"));
                 map1.put("kmlfilenm",tmpSelectedKmlfile);
@@ -236,7 +239,7 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
             final String[] temp = listLatlng.get(i).split(",");
             tv9.setText(listPointnm.get(i));
             tv10.setText("经度: "+temp[0]+" 纬度: "+temp[1]);
-            Button btn6 = (Button)ll.findViewById(R.id.button6);
+            Button btn6 = (Button)ll.findViewById(R.id.button6);btn6.setText("导入点");
             btn6.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -248,6 +251,7 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                                     new ActionSheetDialog.OnSheetItemClickListener() {
                                         @Override
                                         public void onClick(int which) {
+                                            listRegions.clear();
                                             Map<String,String> map = new HashMap<String, String>();
                                             map.put("orgid",orgid);
                                             try {
@@ -260,6 +264,9 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                                             final View cv = View.inflate(Import_Wuhan_Panda9.this,R.layout.dialog_add_devicepoint,null);
                                             builder.setView(cv).setTitle("设置设备定位点");
                                             AlertDialog dialog = builder.create();
+
+                                            TextView tv6 = (TextView)cv.findViewById(R.id.textView6);
+                                            tv6.setText("你选择的KML点是："+listPointnm.get(i));
                                             Spinner sp2 = (Spinner)cv.findViewById(R.id.spinner2);
                                             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(Import_Wuhan_Panda9.this,R.layout.shape_spinner_item_view,R.id.tv_spinner,listRegions);
                                             adapter2.setDropDownViewResource(R.layout.shape_spinner_dropdown_view);
@@ -316,8 +323,8 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                                                     map2.put("type","devicept");
                                                     map2.put("name",editText.getText().toString());
                                                     map2.put("ifsetting",tmpIfSetting);
-                                                    map2.put("lat",temp[1]);
-                                                    map2.put("lon",temp[0]);
+                                                    map2.put("lat",PositionUtil.gps84_To_Gcj02_lat(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
+                                                    map2.put("lon",PositionUtil.gps84_To_Gcj02_lon(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
                                                     map2.put("region",tmpSelectRegion);
                                                     map2.put("navipt",tmpCheckedNvId);
                                                     map2.put("empname",empname);
@@ -377,8 +384,8 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                                                     map2.put("type","navipoint");
                                                     map2.put("name",editText.getText().toString());
                                                     map2.put("ifsetting",tmpIfSetting);
-                                                    map2.put("lat",temp[1]);
-                                                    map2.put("lon",temp[0]);
+                                                    map2.put("lat", PositionUtil.gps84_To_Gcj02_lat(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
+                                                    map2.put("lon", PositionUtil.gps84_To_Gcj02_lon(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
                                                     map2.put("region",tmpSelectRegion);
                                                     map2.put("navipt","");
                                                     map2.put("empname",empname);
@@ -400,12 +407,12 @@ public class Import_Wuhan_Panda9 extends Activity implements View.OnClickListene
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b==true){
-                        list_walkpt_lat.add(temp[1]);
-                        list_walkpt_lon.add(temp[0]);
+                        list_walkpt_lat.add(PositionUtil.gps84_To_Gcj02_lat(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
+                        list_walkpt_lon.add(PositionUtil.gps84_To_Gcj02_lon(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
                         list_walkpt_name.add(listPointnm.get(i));
                     }else{
-                        list_walkpt_lat.remove(temp[1]);
-                        list_walkpt_lon.remove(temp[0]);
+                        list_walkpt_lat.remove(PositionUtil.gps84_To_Gcj02_lat(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
+                        list_walkpt_lon.remove(PositionUtil.gps84_To_Gcj02_lon(Double.parseDouble(temp[1]),Double.parseDouble(temp[0])));
                         list_walkpt_name.remove(listPointnm.get(i));
                     }
 

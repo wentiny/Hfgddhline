@@ -5,15 +5,16 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.07"
+        android:layout_weight="0.05"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.65"
+            android:layout_weight="0.7"
             android:background="@color/blue_semi_transparent_pressed"
             android:textColor="#fff"
             android:textStyle="bold"
@@ -23,18 +24,18 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.35"
+            android:layout_weight="0.3"
             android:background="@color/green_3dbf53"
             android:textStyle="bold"
             android:textColor="#fff"
-            android:text="Button" />
+            android:text="采集" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.83"></FrameLayout>
+        android:layout_weight="0.9"></FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +50,7 @@
             android:textColor="@drawable/tab_menu_text"
             android:background="@drawable/tab_menu_background"
             android:gravity="center"
-            android:text="应急导航" />
+            android:text="应急导航与电缆路径" />
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
@@ -58,7 +59,7 @@
             android:textColor="@drawable/tab_menu_text"
             android:background="@drawable/tab_menu_background"
             android:gravity="center"
-            android:text="电缆路径" />
+            android:text="采集与其他" />
     </LinearLayout>
 
 </LinearLayout>
