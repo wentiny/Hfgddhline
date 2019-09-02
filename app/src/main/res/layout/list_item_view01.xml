@@ -14,22 +14,34 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/star"
+            style="?android:attr/starStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:text="" />
+
         <TextView
             android:id="@+id/textView24"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.75"
-            android:textColor="#000"
+            android:layout_weight="0.65"
             android:gravity="center|left"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#000" />
+
         <Button
             android:id="@+id/button17"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:background="@color/gray_666666"
+            android:text="导航"
             android:textColor="#fff"
-            android:textStyle="bold"
-            android:text="导航" />
+            android:textStyle="bold" />
+
     </LinearLayout>
+
 </LinearLayout>

@@ -223,8 +223,6 @@ public class ControlActivity extends Activity implements View.OnClickListener {
                         // TODO Auto-generated catch block
                         // Log.e(TAG, "ON RESUME: Output stream creation
                         // failed.", e);
-
-
                     }
                     // char[]dd= new char[40];
                     int length = 1024;

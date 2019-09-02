@@ -7,13 +7,19 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,7 +44,8 @@ import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
 import com.amap.api.navi.INaviInfoCallback;
 import com.amap.api.navi.model.AMapNaviLocation;
-import com.example.peisw.hfgddhline.myBlue.Demo_BlueTooth;
+import com.example.peisw.hfgddhline.blue.ConnectActivity;
+import com.example.peisw.hfgddhline.myBlue.Demo_Bluetoothv2;
 import com.example.peisw.hfgddhline.utils.ActionSheetDialog;
 
 import org.json.JSONException;
@@ -75,7 +82,7 @@ public class FirstFragment extends Fragment {
 
     List<String> listRegions;
     List<String> listWorkName, listWorkId, listAreaName, listAreaId;
-    List<String> listDvName,listDvId,listDvLat,listDvLon;
+    List<String> listDvName,listDvId,listDvLat,listDvLon,listColFlag;
     List<String> cableLat, cableLon, cableName;
     String tempSelectedRegion,tempSelectedAreaid;
 //    List<String> listWorkName2, listWorkId2, listAreaName2, listAreaId2;
@@ -122,15 +129,27 @@ public class FirstFragment extends Fragment {
             listDvLat = new ArrayList<>();
             listDvLon = new ArrayList<>();
             listDvName = new ArrayList<>();
+            listColFlag = new ArrayList<>();
 
             cableName = new ArrayList<>();
             cableLat = new ArrayList<>();
             cableLon = new ArrayList<>();
 
             LinearLayout linear_imgv3ed3btn15 = (LinearLayout)view.findViewById(R.id.linear_imgv3ed3btn15);
-            linear_imgv3ed3btn15.bringToFront();
-
             ed3 = (EditText)view.findViewById(R.id.editText3);
+            Button btn15 = (Button)view.findViewById(R.id.button15);
+
+            linear_imgv3ed3btn15.bringToFront();
+            WindowManager wmanager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+            Display displays = wmanager.getDefaultDisplay();
+            int w =displays.getWidth();
+            LinearLayout.LayoutParams ed3_lp = (LinearLayout.LayoutParams)ed3.getLayoutParams();
+            ed3_lp.weight = (float)0.56*w;
+            LinearLayout.LayoutParams btn15_lp = ( LinearLayout.LayoutParams)btn15.getLayoutParams();
+            btn15_lp.weight = (float)0.14*w;
+            btn15.setLayoutParams(btn15_lp);
+            ed3.setLayoutParams(ed3_lp);
+
             ed3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
@@ -138,6 +157,20 @@ public class FirstFragment extends Fragment {
                     final View cv = View.inflate(getActivity(), R.layout.dialog_search_data, null);
                     builder.setTitle("").setView(cv);
                     dialog = builder.create();
+
+                    WindowManager wm = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+                    Display display = wm.getDefaultDisplay();
+                    int width =display.getWidth();
+                    int height=display.getHeight();
+                    Window dialogWindow = dialog.getWindow();
+                    WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                    dialogWindow.setGravity(Gravity.LEFT | Gravity.TOP);//lp.x与lp.y表示相对于原始位置的偏移.
+                    // 将对话框的大小按屏幕大小的百分比设置
+                    lp.x = (int) (width*0.05); // 新位置X坐标
+                    lp.y = (int) (height*0.2); // 新位置Y坐标
+                    lp.width = (int) (width*0.9); // 宽度
+                    lp.height = (int) (height*0.6); // 高度
+                    dialogWindow.setAttributes(lp);
 
                     Spinner sp10 = (Spinner) cv.findViewById(R.id.spinner10);
                     final Spinner sp11 = (Spinner) cv.findViewById(R.id.spinner11);
@@ -239,14 +272,16 @@ public class FirstFragment extends Fragment {
                                 Map<String, String> map2 = new HashMap<String, String>();
                                 map2.put("orgid", tempSelectedAreaid);
                                 map2.put("region", tempSelectedRegion);
+                                map2.put("empid",ENavi_Users_View.empid);
                                 try {
-                                    JSONObject json_2 = new JSONObject(method.doPostUseMap(method.url01 + "/INavi/selectDevice", map2));
-                                    for (int j = 0; j < json_2.length(); j++) {
+                                    JSONObject json_2 = new JSONObject(method.doPostUseMap(method.url01 + "/INavi/selectDeviceV2", map2));
+                                    for (int j = 0; j < json_2.length()/2; j++) {
                                         JSONObject jsonTemp = new JSONObject(json_2.optString("jarray" + j));
                                         listDvId.add(jsonTemp.optString("ROWID"));
                                         listDvLat.add(jsonTemp.optString("LATITUDE"));
                                         listDvLon.add(jsonTemp.optString("LONGTITUDE"));
                                         listDvName.add(jsonTemp.optString("DEVICE_NAME"));
+                                        listColFlag.add(json_2.optString("colflag"+j));
                                     }
                                 } catch (JSONException e) {e.printStackTrace();}
                                 lv3.setAdapter(listAdapter3);
@@ -272,8 +307,6 @@ public class FirstFragment extends Fragment {
                 }
             });
 
-
-            Button btn15 = (Button)view.findViewById(R.id.button15);
             btn15.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -297,7 +330,7 @@ public class FirstFragment extends Fragment {
                             .setTitle("选择仪器型号")
                             .setCancelable(false)
                             .setCanceledOnTouchOutside(false)
-                            .addSheetItem("武汉攀达PD9(导入)", ActionSheetDialog.SheetItemColor.Blue,
+                            .addSheetItem("武汉攀达PD9", ActionSheetDialog.SheetItemColor.Blue,
                                     new ActionSheetDialog.OnSheetItemClickListener() {
                                         @Override
                                         public void onClick(int which) {
@@ -305,6 +338,27 @@ public class FirstFragment extends Fragment {
                                                     .setTitle("操作")
                                                     .setCancelable(false)
                                                     .setCanceledOnTouchOutside(false)
+                                                    .addSheetItem("采集", ActionSheetDialog.SheetItemColor.Blue,
+                                                            new ActionSheetDialog.OnSheetItemClickListener() {
+                                                                @Override
+                                                                public void onClick(int which) {
+                                                                    if (ConnectActivity.isConnect) {
+                                                                        //Intent intent = new Intent(getActivity(), Import_Hipate_v30Plus.class);
+                                                                        Intent intent = new Intent(getActivity(), Demo_Bluetoothv2.class);
+                                                                        intent.putExtra("orgid",ENavi_Users_View.orgid);
+                                                                        intent.putExtra("empid",ENavi_Users_View.empid);
+                                                                        intent.putExtra("empname",ENavi_Users_View.empname);
+                                                                        startActivity(intent);
+                                                                    } else {
+                                                                        //Intent intent = new Intent(getActivity(), ConnectActivity.class);
+                                                                        Intent intent = new Intent(getActivity(), Demo_Bluetoothv2.class);
+                                                                        intent.putExtra("orgid",ENavi_Users_View.orgid);
+                                                                        intent.putExtra("empid",ENavi_Users_View.empid);
+                                                                        intent.putExtra("empname",ENavi_Users_View.empname);
+                                                                        startActivity(intent);
+                                                                    }
+                                                                }
+                                                            })
                                                     .addSheetItem("导入", ActionSheetDialog.SheetItemColor.Blue,
                                                             new ActionSheetDialog.OnSheetItemClickListener() {
                                                                 @Override
@@ -329,14 +383,38 @@ public class FirstFragment extends Fragment {
                                                             }).show();
                                         }
                                     })
-                            .addSheetItem("中海达V30plus(采集)", ActionSheetDialog.SheetItemColor.Blue,
+                            .addSheetItem("中海达V30plus", ActionSheetDialog.SheetItemColor.Blue,
                                     new ActionSheetDialog.OnSheetItemClickListener() {
                                         @Override
                                         public void onClick(int which) {
-                                            Intent intent = new Intent(getActivity(), Demo_BlueTooth.class);
-                                            startActivity(intent);
+                                            if (ConnectActivity.isConnect) {
+                                                Intent intent = new Intent(getActivity(), Import_Hipate_v30Plus.class);
+                                                //Intent intent = new Intent(getActivity(), Demo_Bluetoothv2.class);
+                                                intent.putExtra("orgid",ENavi_Users_View.orgid);
+                                                intent.putExtra("empid",ENavi_Users_View.empid);
+                                                intent.putExtra("empname",ENavi_Users_View.empname);
+                                                startActivity(intent);
+                                            } else {
+                                                Intent intent = new Intent(getActivity(), ConnectActivity.class);
+                                                intent.putExtra("orgid",ENavi_Users_View.orgid);
+                                                intent.putExtra("empid",ENavi_Users_View.empid);
+                                                intent.putExtra("empname",ENavi_Users_View.empname);
+                                                //Intent intent = new Intent(getActivity(), Demo_Bluetoothv2.class);
+                                                startActivity(intent);
+                                            }
                                         }
                                     }).show();
+                }
+            });
+            TextView tv27 = (TextView)view.findViewById(R.id.textView27);
+            tv27.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(),My_Collection.class);
+                    intent.putExtra("orgid",ENavi_Users_View.orgid);
+                    intent.putExtra("empid",ENavi_Users_View.empid);
+                    intent.putExtra("empname",ENavi_Users_View.empname);
+                    startActivity(intent);
                 }
             });
         }
@@ -463,6 +541,26 @@ public class FirstFragment extends Fragment {
                             }
                         });
                     } catch (JSONException e) {e.printStackTrace();}
+                }
+            });
+            CheckBox checkStar = (CheckBox)ll.findViewById(R.id.star);
+            if(listColFlag.get(i).equals("true")){
+               checkStar.setChecked(true);
+            }else{
+                checkStar.setChecked(false);
+            }
+            checkStar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked==true){
+                        Map<String,String> map2 = new HashMap<String, String>();
+                        map2.put("empid",ENavi_Users_View.empid);
+                        map2.put("dvid",listDvId.get(i));
+                        try {
+                            JSONObject jobj = new JSONObject(method.doPostUseMap(method.url01+"/newINavi/importCollection",map2));
+                        } catch (JSONException e) {e.printStackTrace();}
+
+                    }
                 }
             });
             return ll;

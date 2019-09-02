@@ -25,9 +25,12 @@
         <activity android:name=".Import_Wuhan_Panda9"></activity>
         <activity android:name=".Connect_Wuhan_Panda9"></activity>
         <activity android:name=".myBlue.Demo_BlueTooth"></activity>
+        <activity android:name=".Import_Hipate_v30Plus"></activity>
+        <activity android:name=".myBlue.Demo_Bluetoothv2"></activity>
         <activity android:name="com.amap.api.navi.AmapRouteActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".My_Collection"></activity>
 
         <provider
             android:authorities="com.example.peisw.hfgddhline.fileprovider"
@@ -53,6 +56,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>
